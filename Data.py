@@ -1,12 +1,12 @@
 import os,sys
 import json
-from gensim.models import Word2Vec
+import pickle
 import nltk
+import string
+from gensim.models import Word2Vec
 from gensim.models import KeyedVectors
 from nltk.corpus import stopwords
-import string
 from nltk.tokenize import RegexpTokenizer
-import pickle
 
 filename = 'GoogleNews-vectors-negative300.bin'
 model = KeyedVectors.load_word2vec_format(filename, binary=True, limit=100000)
