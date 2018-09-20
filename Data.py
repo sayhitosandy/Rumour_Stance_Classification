@@ -9,7 +9,7 @@ from nltk.tokenize import RegexpTokenizer
 import pickle
 
 filename = 'GoogleNews-vectors-negative300.bin'
-model = KeyedVectors.load_word2vec_format(filename, binary=True, limit=10000)
+model = KeyedVectors.load_word2vec_format(filename, binary=True, limit=100000)
 stop = set(nltk.corpus.stopwords.words('english'))
 print "done"
 
@@ -25,10 +25,11 @@ class Data:
 		feature = []
 		words = nltk.word_tokenize(text)
 		count_punct = 0
+		# negative words list 
 		neg_words = ["not", "no", "nobody", "none", "never", "neither", "nor", "nowhere", "hardly", "scarcely", "barely", "don't", "isn't", "wasn't", "shouldn't", "wouldn't", "couldn't", "doesn't"]
 
 		count_neg_words = 0
-	
+		# count number of punctuations and negative words
 		for i in words:
 			if (i in (string.punctuation)):
 				count_punct += 1
@@ -38,16 +39,21 @@ class Data:
 		tokenizer = RegexpTokenizer(r'\w+')
 		word_nopunc = tokenizer.tokenize(text)
 		word_nopunc = [i for i in  word_nopunc if i not in stop]
+
+		# top 20 features using word2vec
 		for i in word_nopunc:
 			if i in model.wv:
-				# print "append"
-				# print type(model.wv[i].tolist())
 				feat_list = model.wv[i].tolist()
 				feature.extend(feat_list[:20])
+
+		#append 0 if no feature found
+		if (len(feature) < 100):
+			for i in range(len(feature),101):
+				feature.append(0)
 		feature = feature[:100]
 		feature.append(count_punct)
 		feature.append(count_neg_words)
-		# print feature
+
 		return feature
 
 	def extract_features(self):
@@ -163,6 +169,15 @@ Y_label = {}
 path = './test_label.json'
 with open(path) as f:
 	Y_label = json.load(f)
+
+
+f = open("training.pkl", "w")
+pickle.dump((X_data, X_label), f)
+f.close()
+
+f = open("testing.pkl", "w")
+pickle.dump((Y_data, Y_label), f)
+f.close()
 
 
 
