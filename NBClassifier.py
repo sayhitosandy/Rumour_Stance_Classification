@@ -8,11 +8,11 @@ import numpy as np
 cwd = os.getcwd()
 
 f = open(os.path.join(cwd, r'training.pkl'), 'rb')
-(X_train, X_label) = pickle.load(f)
+(X_data, X_label) = pickle.load(f)
 f.close()
 
 f = open(os.path.join(cwd, r'testing.pkl'), 'rb')
-(Y_train, Y_label) = pickle.load(f)
+(Y_data, Y_label) = pickle.load(f)
 f.close()
 
 train = []
@@ -21,7 +21,7 @@ trainLabel = []
 label2no = {u'support':0, u'query':1, u'deny':2, u'comment': 3}
 
 for key in X_label.keys():
-	train.append(X_train[key])
+	train.append(X_data[key])
 	trainLabel.append(label2no[X_label[key]])
 # print(train[0:2])
 # print(trainLabel[0:2])
@@ -30,7 +30,7 @@ for key in X_label.keys():
 train = np.array(train)
 trainLabel = np.array(trainLabel)
 min1 = train.min()
-print min1
+# print (min1)
 for i in range(len(train)):
 	for j in range(len(train[i])):
 		train[i][j] = train[i][j] + abs(min1) 
@@ -44,7 +44,7 @@ test = []
 testLabel = []
 
 for key in Y_label.keys():
-	test.append(Y_train[key])
+	test.append(Y_data[key])
 	testLabel.append(label2no[Y_label[key]])
 
 test = np.array(test)
@@ -55,4 +55,4 @@ for i in range(len(test)):
 		test[i][j] += min1 
 
 predicted = nb_clf.predict(test)
-print(np.mean(predicted == testLabel))
+print(np.mean(predicted == testLabel)*100)

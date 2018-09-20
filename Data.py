@@ -11,7 +11,7 @@ import pickle
 filename = 'GoogleNews-vectors-negative300.bin'
 model = KeyedVectors.load_word2vec_format(filename, binary=True, limit=100000)
 stop = set(nltk.corpus.stopwords.words('english'))
-print "done"
+print ("done")
 
 
 class Data:
@@ -112,12 +112,17 @@ for k in fold:
 		lis.append(Data(structure, tweet_data, source))
 	data.append(lis)
 
+# print(data)
+
 # Find feature vectors for each tweet
 X_data = {}
+# print(type(X_data))
 for i in data:
 	for j in i:
-		X_data = dict(X_data.items() + j.extract_features().items())
-
+		# X_data = dict(X_data.items() + j.extract_features().items())
+		# print (type(j.extract_features()))
+		X_data.update(j.extract_features())
+		
 # get training labels
 X_label = {}
 path = './semeval2017-task8-dataset/traindev/rumoureval-subtaskA-train.json'
@@ -162,7 +167,8 @@ for i in fold:
 # get testing features
 Y_data = {}
 for i in test_data:
-	Y_data = dict(Y_data.items() + i.extract_features().items())
+	# Y_data = dict(Y_data.items() + i.extract_features().items())
+	Y_data.update(i.extract_features())
 
 # get testing labels
 Y_label = {}
@@ -171,11 +177,11 @@ with open(path) as f:
 	Y_label = json.load(f)
 
 
-f = open("training.pkl", "w")
+f = open("training.pkl", "wb")
 pickle.dump((X_data, X_label), f)
 f.close()
 
-f = open("testing.pkl", "w")
+f = open("testing.pkl", "wb")
 pickle.dump((Y_data, Y_label), f)
 f.close()
 
