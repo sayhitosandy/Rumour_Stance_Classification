@@ -4,6 +4,9 @@ import json
 from sklearn.naive_bayes import MultinomialNB as nb
 # from sklearn.linear_model import SGDClassifier as svm
 import numpy as np
+from sklearn.metrics import confusion_matrix
+from sklearn.metrics import precision_recall_fscore_support
+from sklearn.metrics import classification_report, accuracy_score, confusion_matrix
 
 cwd = os.getcwd() #Current working directory
 
@@ -55,5 +58,9 @@ for i in range(len(test)):
 #Naive Bayes Classifier Testing
 predicted = nb_clf.predict(test)
 
+print("Classification accuracy: ", accuracy_score(testLabel, predicted))
+print("Confusion matrix: ", confusion_matrix(testLabel, predicted))
+target_names = ['support', 'query', 'deny', 'comment']
+print(classification_report(testLabel, predicted, target_names=target_names))
 #Accuracy
 print(np.mean(predicted == testLabel)*100)

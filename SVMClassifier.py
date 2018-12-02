@@ -4,6 +4,9 @@ import json
 # from sklearn.naive_bayes import MultinomialNB as nb
 from sklearn.linear_model import SGDClassifier as svm
 import numpy as np
+from sklearn.metrics import confusion_matrix
+from sklearn.metrics import precision_recall_fscore_support
+from sklearn.metrics import classification_report, accuracy_score, confusion_matrix
 
 cwd = os.getcwd() #Current working directory
 
@@ -31,7 +34,7 @@ train = np.array(train)
 trainLabel = np.array(trainLabel)
 
 #SVM Training
-svm_clf = svm(loss='squared_hinge', max_iter=1000, penalty='l2').fit(train, trainLabel.transpose())
+svm_clf = svm(loss='squared_hinge', max_iter=1000).fit(train, trainLabel.transpose())
 
 test = []
 testLabel = []
@@ -45,6 +48,10 @@ testLabel = np.array(testLabel)
 
 #SVM Testing
 predicted = svm_clf.predict(test)
+print("Classification accuracy: ", accuracy_score(testLabel, predicted))
+print("Confusion matrix: ", confusion_matrix(testLabel, predicted))
+target_names = ['support', 'query', 'deny', 'comment']
+print(classification_report(testLabel, predicted, target_names=target_names))
 
 #Accuracy
 print(np.mean(predicted == testLabel)*100)
