@@ -21,17 +21,17 @@ Python version: 2.7
 3. `nn.py` is a python script for the neural network model. Run the `nn.py` file to get the results for neural network model. Keras Library is used in this script.
 4. Run the `NBClassifier.py` file for Naive bayes results.
 5. The jupyter notebook `ngram_models.ipynb` (Python version: 3.6) includes code and output for:
-- loading the rumour eval training and test data
-- preprocessing the data
-- vectorizing the data using CountVectorizer and TFIDF, for Unigram, Bigram and Trigram
-- running different classifiers on it, including
-  - MultinomialNB
-  - SVM
-  - Logistic Regression
-  - RandomForest
-  - XGBoost
-- an attempt at LSTM
-- loading and collecting the newly collected data
+  - loading the rumour eval training and test data
+  - preprocessing the data
+  - vectorizing the data using CountVectorizer and TFIDF, for Unigram, Bigram and Trigram
+  - running different classifiers on it, including
+    - MultinomialNB
+    - SVM
+    - Logistic Regression
+    - RandomForest
+    - XGBoost
+  - an attempt at LSTM
+  - loading and collecting the newly collected data
 
 #### References
 1. Derczynski et. Al, SemEval-2017 Task 8: RumourEval: Determining rumour veracity and support for rumours.
